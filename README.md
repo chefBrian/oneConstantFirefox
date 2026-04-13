@@ -57,7 +57,7 @@ Clicking the video icon opens a modal with:
 ## Install
 
 ### Chrome Web Store
-<!-- TODO: Add Chrome Web Store link after publishing -->
+[Install from Chrome Web Store](https://chromewebstore.google.com/detail/fantraxbaseball+/andhmhfiodkbfmjiencoiglmdpolhomc)
 
 ### Firefox Add-ons
 [Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fantraxbaseball/)
