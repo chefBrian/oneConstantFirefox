@@ -4,10 +4,40 @@
   <meta charset="utf-8">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #1a1d21;
+      --text: #fff;
+      --text-muted: rgba(255, 255, 255, 0.85);
+      --text-dim: rgba(255, 255, 255, 0.4);
+      --text-faint: rgba(255, 255, 255, 0.3);
+      --border: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.15);
+      --seg-bg: rgba(255, 255, 255, 0.06);
+      --seg-border: rgba(255, 255, 255, 0.1);
+      --seg-btn: rgba(255, 255, 255, 0.55);
+      --slider-off: rgba(255, 255, 255, 0.15);
+      --slider-knob: #fff;
+      --accent: rgb(20, 184, 166);
+    }
+    html.light {
+      --bg: #ffffff;
+      --text: hsl(212 11% 18%);
+      --text-muted: hsl(212 12% 27%);
+      --text-dim: hsl(214 15% 47%);
+      --text-faint: hsl(214 12% 60%);
+      --border: hsl(0 0% 0% / 0.08);
+      --border-strong: hsl(0 0% 0% / 0.14);
+      --seg-bg: hsl(214 16% 93.5%);
+      --seg-border: hsl(0 0% 0% / 0.08);
+      --seg-btn: hsl(212 15% 36%);
+      --slider-off: hsl(214 15% 78%);
+      --slider-knob: #fff;
+      --accent: hsl(173.4 82% 39%);
+    }
     body {
       width: 260px;
-      background: #1a1d21;
-      color: #fff;
+      background: var(--bg);
+      color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       font-size: 13px;
       padding: 16px;
@@ -18,12 +48,12 @@
       gap: 8px;
       margin-bottom: 6px;
       padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border);
     }
     .header img { width: 24px; height: 24px; }
     .header span { font-weight: 600; font-size: 14px; }
-    .version { font-weight: 400; font-size: 12px; color: rgba(255, 255, 255, 0.35); margin-left: auto; text-decoration: none; }
-    .version:hover { color: rgba(255, 255, 255, 0.6); }
+    .version { font-weight: 400; font-size: 12px; color: var(--text-faint); margin-left: auto; text-decoration: none; }
+    .version:hover { color: var(--text-dim); }
     .toggle-row {
       display: flex;
       align-items: center;
@@ -34,7 +64,7 @@
       display: flex;
       align-items: center;
       gap: 5px;
-      color: rgba(255, 255, 255, 0.85);
+      color: var(--text-muted);
     }
     .toggle-label svg {
       width: 16px;
@@ -44,7 +74,7 @@
     }
     .toggle-desc {
       font-size: 10px;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-dim);
       margin-top: 1px;
     }
     /* Toggle switch */
@@ -58,7 +88,7 @@
     .slider {
       position: absolute;
       inset: 0;
-      background: rgba(255, 255, 255, 0.15);
+      background: var(--slider-off);
       border-radius: 10px;
       cursor: pointer;
       transition: background 0.2s;
@@ -70,12 +100,12 @@
       height: 14px;
       left: 3px;
       bottom: 3px;
-      background: #fff;
+      background: var(--slider-knob);
       border-radius: 50%;
       transition: transform 0.2s;
     }
     input:checked + .slider {
-      background: rgb(20, 184, 166);
+      background: var(--accent);
     }
     input:checked + .slider::before {
       transform: translateX(16px);
@@ -83,7 +113,7 @@
     .section-label {
       font-size: 10px;
       font-weight: 600;
-      color: rgba(255, 255, 255, 0.3);
+      color: var(--text-faint);
       text-transform: uppercase;
       letter-spacing: 0.5px;
       padding: 14px 0 2px;
@@ -91,10 +121,39 @@
     .section-label:first-child {
       padding-top: 0;
     }
+    .theme-seg {
+      display: flex;
+      background: var(--seg-bg);
+      border: 1px solid var(--seg-border);
+      border-radius: 8px;
+      padding: 2px;
+      gap: 2px;
+      margin-top: 4px;
+    }
+    .theme-seg button {
+      flex: 1;
+      background: transparent;
+      color: var(--seg-btn);
+      border: none;
+      border-radius: 6px;
+      padding: 5px 0;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .theme-seg button:hover {
+      color: var(--text-muted);
+    }
+    .theme-seg button.active {
+      background: var(--accent);
+      color: #fff;
+    }
     .footer {
       margin-top: 12px;
       padding-top: 10px;
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      border-top: 1px solid var(--border);
       display: flex;
       gap: 8px;
       justify-content: center;
@@ -103,16 +162,16 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      color: rgba(255, 255, 255, 0.4);
+      color: var(--text-dim);
       font-size: 11px;
       text-decoration: none;
-      border: 1px solid rgba(255, 255, 255, 0.15);
+      border: 1px solid var(--border-strong);
       border-radius: 6px;
       padding: 5px 14px;
     }
     .footer a:hover {
-      color: rgba(255, 255, 255, 0.7);
-      border-color: rgba(255, 255, 255, 0.3);
+      color: var(--text-muted);
+      border-color: var(--border-strong);
     }
     .footer svg {
       width: 14px;
@@ -126,6 +185,13 @@
     <img src="icons/icon-48.png" alt="">
     <span>FantraxBaseball+</span>
     <a class="version" id="version" target="_blank"></a>
+  </div>
+
+  <div class="section-label">Appearance</div>
+  <div class="theme-seg" id="themeSeg">
+    <button data-theme="auto">Auto</button>
+    <button data-theme="light">Light</button>
+    <button data-theme="dark">Dark</button>
   </div>
 
   <div class="section-label">Icons</div>

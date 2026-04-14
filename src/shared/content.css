@@ -1,3 +1,106 @@
+/* =============================================
+   Theme tokens
+   Dark defaults on :root, light overrides under html.ocf-light
+   Light palette is sampled from Fantrax's own light theme
+   (pure white surfaces, hsl(212 92% 34%) primary, Poppins)
+   ============================================= */
+
+:root {
+  --ocf-link: #8ab4f8;
+  --ocf-panel-bg: #1a1d21;
+  --ocf-panel-border: rgb(20, 184, 166);
+  --ocf-panel-border-width: 2px;
+  --ocf-panel-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  --ocf-surface: #22262b;
+  --ocf-divider: rgba(255, 255, 255, 0.06);
+  --ocf-divider-2: rgba(255, 255, 255, 0.08);
+  --ocf-border: rgba(255, 255, 255, 0.08);
+  --ocf-border-strong: rgba(255, 255, 255, 0.15);
+  --ocf-text: #fff;
+  --ocf-text-muted: rgba(255, 255, 255, 0.85);
+  --ocf-text-muted-2: rgba(255, 255, 255, 0.65);
+  --ocf-text-muted-3: rgba(255, 255, 255, 0.55);
+  --ocf-text-dim: rgba(255, 255, 255, 0.45);
+  --ocf-text-faint: rgba(255, 255, 255, 0.35);
+  --ocf-text-ghost: rgba(255, 255, 255, 0.3);
+  --ocf-text-ghostlier: rgba(255, 255, 255, 0.2);
+  --ocf-track: rgba(255, 255, 255, 0.04);
+  --ocf-track-hover: rgba(255, 255, 255, 0.06);
+  --ocf-track-dash: rgba(255, 255, 255, 0.28);
+  --ocf-grid-line: rgba(255, 255, 255, 0.08);
+  --ocf-grid-label: rgba(255, 255, 255, 0.5);
+  --ocf-accent-blue: #49a3fd;
+  --ocf-accent-blue-soft: rgba(73, 163, 253, 0.1);
+  --ocf-accent-blue-border: rgba(73, 163, 253, 0.5);
+  --ocf-accent-blue-text: #93bbfc;
+  --ocf-filter-bg: rgba(255, 255, 255, 0.08);
+  --ocf-filter-border: rgba(255, 255, 255, 0.12);
+  --ocf-filter-hover: rgba(255, 255, 255, 0.14);
+  --ocf-video-modal-bg: #191c1f;
+  --ocf-video-modal-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+  --ocf-video-thumb-bg: #090a0b;
+  --ocf-video-backdrop: rgba(0, 0, 0, 0.78);
+  --ocf-video-duration-bg: rgba(0, 0, 0, 0.8);
+  --ocf-video-duration-text: rgba(255, 255, 255, 0.84);
+  --ocf-hover-bg: rgba(255, 255, 255, 0.06);
+  --ocf-spinner-track: rgba(255, 255, 255, 0.08);
+  --ocf-shimmer-1: rgba(255, 255, 255, 0.04);
+  --ocf-shimmer-2: rgba(255, 255, 255, 0.08);
+  --ocf-scrollbar: rgba(255, 255, 255, 0.1);
+  --ocf-pct-ring: #1a1d21;
+  --ocf-tooltip-bg: #22262b;
+  --ocf-toggle-active-bg: rgba(255, 255, 255, 0.12);
+  --ocf-toggle-active-text: #fff;
+}
+
+html.ocf-light {
+  --ocf-link: hsl(212 92% 34%);
+  --ocf-panel-bg: #ffffff;
+  --ocf-panel-border: hsl(214 15% 85%);
+  --ocf-panel-border-width: 1px;
+  --ocf-panel-shadow: 0 24px 24px -22px rgba(0, 0, 0, 0.24), 0 0 16px -8px rgba(0, 0, 0, 0.08);
+  --ocf-surface: hsl(214 16% 97.2%);
+  --ocf-divider: hsl(0 0% 0% / 0.06);
+  --ocf-divider-2: hsl(0 0% 0% / 0.08);
+  --ocf-border: hsl(0 0% 0% / 0.07);
+  --ocf-border-strong: hsl(0 0% 0% / 0.14);
+  --ocf-text: hsl(212 11% 18%);
+  --ocf-text-muted: hsl(212 12% 27%);
+  --ocf-text-muted-2: hsl(212 14% 31%);
+  --ocf-text-muted-3: hsl(212 15% 36%);
+  --ocf-text-dim: hsl(214 15% 47%);
+  --ocf-text-faint: hsl(214 12% 55%);
+  --ocf-text-ghost: hsl(214 12% 60%);
+  --ocf-text-ghostlier: hsl(214 12% 68%);
+  --ocf-track: hsl(214 18% 88%);
+  --ocf-track-hover: hsl(214 18% 82%);
+  --ocf-track-dash: hsl(214 14% 62%);
+  --ocf-grid-line: hsl(0 0% 0% / 0.1);
+  --ocf-grid-label: hsl(212 14% 40%);
+  --ocf-accent-blue: hsl(212 92% 34%);
+  --ocf-accent-blue-soft: hsl(212 92% 34% / 0.08);
+  --ocf-accent-blue-border: hsl(212 92% 34% / 0.35);
+  --ocf-accent-blue-text: hsl(212 92% 31%);
+  --ocf-filter-bg: hsl(0 0% 0% / 0.05);
+  --ocf-filter-border: hsl(0 0% 0% / 0.1);
+  --ocf-filter-hover: hsl(0 0% 0% / 0.09);
+  --ocf-video-modal-bg: #ffffff;
+  --ocf-video-modal-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.28), 0 0 24px -8px rgba(0, 0, 0, 0.1);
+  --ocf-video-thumb-bg: hsl(214 16% 88%);
+  --ocf-video-backdrop: rgba(17, 24, 39, 0.55);
+  --ocf-video-duration-bg: rgba(0, 0, 0, 0.72);
+  --ocf-video-duration-text: #fff;
+  --ocf-hover-bg: hsl(0 0% 0% / 0.04);
+  --ocf-spinner-track: hsl(214 16% 88%);
+  --ocf-shimmer-1: hsl(214 16% 93.5%);
+  --ocf-shimmer-2: hsl(214 16% 86%);
+  --ocf-scrollbar: hsl(0 0% 0% / 0.18);
+  --ocf-pct-ring: #ffffff;
+  --ocf-tooltip-bg: hsl(212 11% 24%);
+  --ocf-toggle-active-bg: hsl(212 92% 34%);
+  --ocf-toggle-active-text: #fff;
+}
+
 /* Small link badges on the position line (roster, matchup, players) */
 .ocf-links--sm {
   display: inline-flex;
@@ -50,7 +153,7 @@
 
 /* Shared */
 .ocf-link {
-  color: #8ab4f8 !important;
+  color: var(--ocf-link) !important;
 }
 
 .ocf-link:hover {
@@ -95,10 +198,10 @@
   position: fixed;
   z-index: 10000;
   width: 340px;
-  background: #1a1d21;
-  border: 2px solid rgb(20, 184, 166);
+  background: var(--ocf-panel-bg);
+  border: var(--ocf-panel-border-width) solid var(--ocf-panel-border);
   border-radius: 20px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--ocf-panel-shadow);
   font-family: Poppins, sans-serif;
   overflow-y: auto;
   box-sizing: border-box;
@@ -106,7 +209,7 @@
   display: flex;
   flex-direction: column;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: var(--ocf-scrollbar) transparent;
 }
 
 /* Header */
@@ -114,7 +217,7 @@
   padding: 10px 10px 0;
   position: sticky;
   top: 0;
-  background: #1a1d21;
+  background: var(--ocf-panel-bg);
   z-index: 1;
 }
 
@@ -126,9 +229,9 @@
 }
 
 .ocf-statcast-year {
-  background: #22262b;
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--ocf-surface);
+  color: var(--ocf-text);
+  border: 1px solid var(--ocf-border-strong);
   border-radius: 4px;
   padding: 3px 6px;
   font-size: 12px;
@@ -138,13 +241,13 @@
 }
 
 .ocf-statcast-year:focus {
-  border-color: #49a3fd;
+  border-color: var(--ocf-accent-blue);
 }
 
 .ocf-statcast-title {
   font-size: 13px;
   font-weight: 600;
-  color: #fff;
+  color: var(--ocf-text);
   flex: 1;
   text-align: center;
 }
@@ -154,7 +257,7 @@
   align-items: center;
   gap: 3px;
   font-size: 10px;
-  color: #8ab4f8 !important;
+  color: var(--ocf-link) !important;
   text-decoration: none !important;
   opacity: 0.7;
 }
@@ -169,7 +272,7 @@
   align-items: center;
   gap: 8px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid var(--ocf-divider);
 }
 
 .ocf-statcast-axis::after {
@@ -191,10 +294,11 @@
   font-weight: 600;
   letter-spacing: 0.5px;
   text-transform: uppercase;
+  margin-right: 18px;
 }
 
 .ocf-statcast-axis--poor { color: #4488c4; }
-.ocf-statcast-axis--avg  { color: rgba(255, 255, 255, 0.35); }
+.ocf-statcast-axis--avg  { color: var(--ocf-text-faint); }
 .ocf-statcast-axis--great { color: #c6463a; }
 
 /* Body */
@@ -205,7 +309,7 @@
 .ocf-statcast-section-title {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--ocf-text-muted-3);
   padding: 10px 44px 4px 88px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -218,29 +322,35 @@
   align-items: center;
   gap: 8px;
   padding: 2.5px 0;
+  min-height: 19px;
 }
 
 .ocf-statcast-label {
   width: 80px;
   min-width: 80px;
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.65);
+  color: var(--ocf-text-muted-2);
   text-align: right;
   white-space: nowrap;
 }
 
 .ocf-statcast-track {
   flex: 1;
-  height: 18px;
-  background: rgba(255, 255, 255, 0.04);
+  height: 7px;
+  background: var(--ocf-track);
   border-radius: 2px;
   position: relative;
   overflow: visible;
+  margin-right: 18px;
 }
 
 .ocf-statcast-fill {
-  height: 100%;
-  border-radius: 2px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 14px;
+  transform: translateY(-50%);
+  border-radius: 3px;
   transition: width 0.3s ease, background-color 0.3s ease;
 }
 
@@ -259,7 +369,7 @@
   font-size: 11px;
   font-weight: 700;
   color: #fff;
-  border: 2px solid #1a1d21;
+  border: 2px solid var(--ocf-pct-ring);
   z-index: 1;
   transition: left 0.3s ease, background-color 0.3s ease;
 }
@@ -269,7 +379,7 @@
   min-width: 36px;
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--ocf-text-muted);
   text-align: right;
   white-space: nowrap;
 }
@@ -295,7 +405,7 @@
 }
 
 .ocf-statcast-label--qualified {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--ocf-text);
 }
 
 .ocf-statcast-label--nq + .ocf-statcast-track::after {
@@ -306,7 +416,7 @@
   align-items: center;
   justify-content: center;
   font-size: 9px;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--ocf-text-ghostlier);
   letter-spacing: 0.5px;
   font-weight: 500;
 }
@@ -315,7 +425,7 @@
   height: 100%;
   width: 60%;
   border-radius: 2px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background: linear-gradient(90deg, var(--ocf-shimmer-1) 25%, var(--ocf-shimmer-2) 50%, var(--ocf-shimmer-1) 75%);
   background-size: 200% 100%;
   animation: ocf-shimmer 1.5s ease infinite;
 }
@@ -328,8 +438,8 @@
 .ocf-statcast-spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  border-top-color: rgb(20, 184, 166);
+  border: 2px solid var(--ocf-spinner-track);
+  border-top-color: var(--ocf-panel-border);
   border-radius: 50%;
   animation: ocf-spin 0.7s linear infinite;
 }
@@ -337,7 +447,7 @@
 .ocf-statcast-empty {
   text-align: center;
   padding: 24px 16px;
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--ocf-text-faint);
   font-size: 11px;
 }
 
@@ -347,7 +457,7 @@
 
 .ocf-rolling-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--ocf-divider-2);
   margin: 6px 10px 0;
 }
 
@@ -365,14 +475,14 @@
 .ocf-rolling-title {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--ocf-text-muted-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .ocf-rolling-toggle {
   display: inline-flex;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--ocf-border-strong);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -380,7 +490,7 @@
 .ocf-rolling-toggle button {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--ocf-text-dim);
   font-size: 10px;
   font-weight: 600;
   font-family: inherit;
@@ -390,12 +500,12 @@
 }
 
 .ocf-rolling-toggle button:not(:last-child) {
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid var(--ocf-border-strong);
 }
 
 .ocf-rolling-toggle button.ocf-rolling-toggle--active {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: var(--ocf-toggle-active-bg);
+  color: var(--ocf-toggle-active-text);
 }
 
 .ocf-rolling-canvas-wrap {
@@ -413,8 +523,8 @@
 .ocf-rolling-tooltip {
   position: absolute;
   pointer-events: none;
-  background: #22262b;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--ocf-tooltip-bg);
+  border: 1px solid var(--ocf-border-strong);
   border-radius: 4px;
   padding: 4px 8px;
   font-size: 10px;
@@ -432,7 +542,7 @@
 .ocf-rolling-shimmer {
   height: 140px;
   border-radius: 4px;
-  background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+  background: linear-gradient(90deg, var(--ocf-shimmer-1) 25%, var(--ocf-shimmer-2) 50%, var(--ocf-shimmer-1) 75%);
   background-size: 200% 100%;
   animation: ocf-shimmer 1.5s ease infinite;
 }
@@ -442,7 +552,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--ocf-text-ghost);
   font-size: 11px;
 }
 
@@ -452,7 +562,7 @@
 
 .ocf-fangraphs-divider {
   height: 1px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--ocf-divider-2);
   margin: 6px 10px 0;
 }
 
@@ -475,7 +585,7 @@
 .ocf-fangraphs-title {
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--ocf-text-muted-3);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   white-space: nowrap;
@@ -486,7 +596,7 @@
 
 .ocf-fangraphs-toggle {
   display: inline-flex;
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--ocf-border-strong);
   border-radius: 4px;
   overflow: hidden;
 }
@@ -494,7 +604,7 @@
 .ocf-fangraphs-toggle button {
   background: transparent;
   border: none;
-  color: rgba(255, 255, 255, 0.45);
+  color: var(--ocf-text-dim);
   font-size: 10px;
   font-weight: 600;
   font-family: inherit;
@@ -504,12 +614,12 @@
 }
 
 .ocf-fangraphs-toggle button:not(:last-child) {
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  border-right: 1px solid var(--ocf-border-strong);
 }
 
 .ocf-fangraphs-toggle button.ocf-fangraphs-toggle--active {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
+  background: var(--ocf-toggle-active-bg);
+  color: var(--ocf-toggle-active-text);
 }
 
 .ocf-fangraphs-link {
@@ -517,7 +627,7 @@
   align-items: center;
   gap: 3px;
   font-size: 10px;
-  color: #8ab4f8 !important;
+  color: var(--ocf-link) !important;
   text-decoration: none !important;
   opacity: 0.7;
   flex-shrink: 0;
@@ -539,7 +649,7 @@
   min-width: 38px;
   font-size: 11px;
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.85);
+  color: var(--ocf-text-muted);
   text-align: right;
   white-space: nowrap;
 }
@@ -554,7 +664,7 @@
 .ocf-fangraphs-empty {
   text-align: center;
   padding: 12px 0;
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--ocf-text-ghost);
   font-size: 11px;
   flex: 1;
   display: flex;
@@ -588,17 +698,17 @@
 .ocf-video-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.78);
+  background: var(--ocf-video-backdrop);
 }
 
 .ocf-video-modal__container {
   position: relative;
   width: 92%;
   max-width: 1440px;
-  background: #191c1f;
+  background: var(--ocf-video-modal-bg);
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.7);
+  border: 1px solid var(--ocf-border);
+  box-shadow: var(--ocf-video-modal-shadow);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -611,8 +721,8 @@
   align-items: center;
   gap: 8px;
   padding: 10px 14px;
-  background: #22262b;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--ocf-surface);
+  border-bottom: 1px solid var(--ocf-border);
   flex-shrink: 0;
 }
 
@@ -620,14 +730,14 @@
   font-size: 18px !important;
   width: 18px !important;
   height: 18px !important;
-  color: #49a3fd !important;
+  color: var(--ocf-accent-blue) !important;
 }
 
 .ocf-video-modal__title {
   flex: 1;
   font-size: 13px;
   font-weight: 500;
-  color: #fff;
+  color: var(--ocf-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -642,13 +752,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(255, 255, 255, 0.62);
+  color: var(--ocf-text-muted-2);
   transition: color 0.15s, background 0.15s;
 }
 
 .ocf-video-modal__close:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
+  color: var(--ocf-text);
+  background: var(--ocf-hover-bg);
 }
 
 .ocf-video-modal__close .mat-icon {
@@ -688,7 +798,7 @@
 
 .ocf-video-modal__date {
   font-size: 11px;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--ocf-text-dim);
   white-space: nowrap;
 }
 
@@ -699,10 +809,10 @@
 }
 
 .ocf-video-modal__filter-btn {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--ocf-filter-bg);
+  border: 1px solid var(--ocf-filter-border);
   border-radius: 4px;
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--ocf-text-muted-2);
   font-size: 11px;
   padding: 3px 10px;
   cursor: pointer;
@@ -710,14 +820,14 @@
 }
 
 .ocf-video-modal__filter-btn:hover {
-  background: rgba(255, 255, 255, 0.14);
-  color: rgba(255, 255, 255, 0.85);
+  background: var(--ocf-filter-hover);
+  color: var(--ocf-text-muted);
 }
 
 .ocf-video-modal__filter-btn--active {
-  background: rgba(59, 130, 246, 0.3);
-  border-color: rgba(59, 130, 246, 0.5);
-  color: #93bbfc;
+  background: var(--ocf-accent-blue-soft);
+  border-color: var(--ocf-accent-blue-border);
+  color: var(--ocf-accent-blue-text);
 }
 
 /* Sidebar video list - absolutely positioned, height matches video body */
@@ -729,8 +839,8 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  border-left: 1px solid rgba(255, 255, 255, 0.08);
-  background: #191c1f;
+  border-left: 1px solid var(--ocf-border);
+  background: var(--ocf-video-modal-bg);
   overflow: hidden;
 }
 
@@ -739,7 +849,7 @@
   overflow-y: auto;
   padding: 4px 0;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+  scrollbar-color: var(--ocf-scrollbar) transparent;
 }
 
 /* List item */
@@ -753,12 +863,12 @@
 }
 
 .ocf-video-modal__list-item:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--ocf-hover-bg);
 }
 
 .ocf-video-modal__list-item--active {
-  background: rgba(73, 163, 253, 0.1);
-  border-left: 2px solid #49a3fd;
+  background: var(--ocf-accent-blue-soft);
+  border-left: 2px solid var(--ocf-accent-blue);
 }
 
 .ocf-video-modal__list-thumb {
@@ -768,7 +878,7 @@
   height: 56px;
   border-radius: 4px;
   overflow: hidden;
-  background: #090a0b;
+  background: var(--ocf-video-thumb-bg);
 }
 
 .ocf-video-modal__list-thumb img {
@@ -782,8 +892,8 @@
   position: absolute;
   bottom: 3px;
   right: 3px;
-  background: rgba(0, 0, 0, 0.8);
-  color: rgba(255, 255, 255, 0.84);
+  background: var(--ocf-video-duration-bg);
+  color: var(--ocf-video-duration-text);
   font-size: 9px;
   font-weight: 500;
   padding: 1px 4px;
@@ -802,7 +912,7 @@
 .ocf-video-modal__list-title {
   font-size: 11px;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.84);
+  color: var(--ocf-text-muted);
   line-height: 1.3;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -812,7 +922,7 @@
 
 .ocf-video-modal__list-date {
   font-size: 10px;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--ocf-text-dim);
 }
 
 /* Spinner */
@@ -826,8 +936,8 @@
 .ocf-video-modal__spinner {
   width: 24px;
   height: 24px;
-  border: 2px solid rgba(255, 255, 255, 0.08);
-  border-top-color: #49a3fd;
+  border: 2px solid var(--ocf-spinner-track);
+  border-top-color: var(--ocf-accent-blue);
   border-radius: 50%;
   animation: ocf-spin 0.7s linear infinite;
 }
@@ -839,7 +949,7 @@
 .ocf-video-modal__empty {
   text-align: center;
   padding: 32px 16px;
-  color: rgba(255, 255, 255, 0.42);
+  color: var(--ocf-text-dim);
   font-size: 12px;
 }
 

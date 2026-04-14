@@ -4,6 +4,57 @@
   const browser = globalThis.browser || globalThis.chrome;
 
   const PROCESSED_ATTR = "data-ocf-links";
+  const THEME_STORAGE_KEY = "ocfTheme";
+  let themeOverride = "auto";
+
+  function detectFantraxTheme() {
+    const bg = getComputedStyle(document.documentElement).backgroundColor;
+    const m = bg && bg.match(/\d+(?:\.\d+)?/g);
+    if (!m || m.length < 3) return "dark";
+    const [r, g, b] = m.map(Number);
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    return luminance > 0.5 ? "light" : "dark";
+  }
+
+  function applyTheme(theme) {
+    const root = document.documentElement;
+    root.classList.toggle("ocf-light", theme === "light");
+    root.classList.toggle("ocf-dark", theme !== "light");
+  }
+
+  function resolveTheme() {
+    return themeOverride === "light" || themeOverride === "dark"
+      ? themeOverride
+      : detectFantraxTheme();
+  }
+
+  function reconcileTheme() {
+    const target = resolveTheme();
+    const current = document.documentElement.classList.contains("ocf-light") ? "light" : "dark";
+    if (target !== current) {
+      applyTheme(target);
+      if (themeOverride === "auto") {
+        try { browser.storage.local.set({ [THEME_STORAGE_KEY]: target }); } catch (e) {}
+      }
+    }
+  }
+
+  // Apply cached theme immediately to avoid flashing on first injected UI
+  try {
+    browser.storage.local.get({ [THEME_STORAGE_KEY]: null }).then((stored) => {
+      if (stored && stored[THEME_STORAGE_KEY]) applyTheme(stored[THEME_STORAGE_KEY]);
+      reconcileTheme();
+    });
+  } catch (e) {
+    applyTheme(detectFantraxTheme());
+  }
+
+  // Watch for live theme toggles (Fantrax swaps styles without reload)
+  new MutationObserver(reconcileTheme).observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class", "style", "data-theme"],
+  });
+
   const MLB_SEARCH_API = "https://statsapi.mlb.com/api/v1/people/search?names=";
   const VIDEOS_PER_PAGE = 25;
   // Feature toggles (all on by default, overridden by storage)
@@ -868,7 +919,10 @@
     // Clear
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    // Gridlines
+    // Gridlines (theme-aware via CSS vars)
+    const rootStyle = getComputedStyle(document.documentElement);
+    const gridLineColor = rootStyle.getPropertyValue("--ocf-grid-line").trim() || "rgba(255,255,255,0.08)";
+    const gridLabelColor = rootStyle.getPropertyValue("--ocf-grid-label").trim() || "rgba(255,255,255,0.3)";
     const gridValues = [];
     for (let v = Math.ceil(yMin * 10) / 10; v <= yMax; v = Math.round((v + 0.1) * 10) / 10) {
       gridValues.push(v);
@@ -878,7 +932,7 @@
     ctx.textBaseline = "middle";
     for (const gv of gridValues) {
       const gy = yPos(gv);
-      ctx.strokeStyle = "rgba(255,255,255,0.08)";
+      ctx.strokeStyle = gridLineColor;
       ctx.setLineDash([3, 3]);
       ctx.lineWidth = 1;
       ctx.beginPath();
@@ -886,7 +940,7 @@
       ctx.lineTo(padLeft + chartW, gy);
       ctx.stroke();
       ctx.setLineDash([]);
-      ctx.fillStyle = "rgba(255,255,255,0.3)";
+      ctx.fillStyle = gridLabelColor;
       ctx.fillText(gv.toFixed(3), padLeft - 4, gy);
     }
 
@@ -1894,8 +1948,10 @@
   }
 
   // Load feature settings then inject
-  browser.storage.sync.get({ bbref: true, statcastIcon: true, statcastPanel: true, video: true, liveGame: true, fangraphsPanel: true }).then((stored) => {
+  browser.storage.sync.get({ bbref: true, statcastIcon: true, statcastPanel: true, video: true, liveGame: true, fangraphsPanel: true, themeOverride: "auto" }).then((stored) => {
     Object.assign(features, stored);
+    themeOverride = stored.themeOverride || "auto";
+    reconcileTheme();
     scanAndInject();
   });
 
@@ -1903,6 +1959,10 @@
   browser.storage.onChanged.addListener((changes, area) => {
     if (area !== "sync") return;
     let changed = false;
+    if (changes.themeOverride) {
+      themeOverride = changes.themeOverride.newValue || "auto";
+      reconcileTheme();
+    }
     for (const [key, { newValue }] of Object.entries(changes)) {
       if (key in features) {
         features[key] = newValue;
