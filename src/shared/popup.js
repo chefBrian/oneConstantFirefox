@@ -3,14 +3,33 @@ const browser = globalThis.browser || globalThis.chrome;
 const FEATURES = ["bbref", "statcastIcon", "statcastPanel", "video", "liveGame", "fangraphsPanel"];
 const DEFAULTS = { bbref: true, statcastIcon: true, statcastPanel: true, video: true, liveGame: true, fangraphsPanel: true, themeOverride: "auto" };
 
-const REQUIRED_ORIGINS = [
-  "*://*.fantrax.com/*",
-  "https://fastball-gateway.mlb.com/*",
-  "https://statsapi.mlb.com/*",
-  "https://fastball-clips.mlb.com/*",
-  "https://baseballsavant.mlb.com/*",
-  "https://www.fangraphs.com/*",
-];
+const BASE_ORIGINS = ["*://*.fantrax.com/*"];
+const FEATURE_ORIGINS = {
+  bbref: ["https://statsapi.mlb.com/*"],
+  statcastIcon: ["https://statsapi.mlb.com/*"],
+  statcastPanel: ["https://statsapi.mlb.com/*", "https://baseballsavant.mlb.com/*"],
+  video: [
+    "https://statsapi.mlb.com/*",
+    "https://fastball-gateway.mlb.com/*",
+    "https://fastball-clips.mlb.com/*",
+  ],
+  liveGame: ["https://statsapi.mlb.com/*"],
+  fangraphsPanel: ["https://statsapi.mlb.com/*", "https://www.fangraphs.com/*"],
+};
+
+function originsForEnabled(features) {
+  const set = new Set(BASE_ORIGINS);
+  for (const [feature, origins] of Object.entries(FEATURE_ORIGINS)) {
+    if (features[feature]) origins.forEach((o) => set.add(o));
+  }
+  return [...set];
+}
+
+function currentToggleState() {
+  const state = {};
+  for (const key of FEATURES) state[key] = document.getElementById(key).checked;
+  return state;
+}
 
 async function refreshPermissionBanner() {
   const banner = document.getElementById("permBanner");
@@ -19,11 +38,33 @@ async function refreshPermissionBanner() {
     return;
   }
   try {
-    const granted = await browser.permissions.contains({ origins: REQUIRED_ORIGINS });
+    const origins = originsForEnabled(currentToggleState());
+    const granted = await browser.permissions.contains({ origins });
     banner.classList.toggle("visible", !granted);
   } catch {
     banner.classList.remove("visible");
   }
+}
+
+async function handleToggleChange(key, el) {
+  if (el.checked) {
+    const needed = FEATURE_ORIGINS[key];
+    if (needed && browser.permissions) {
+      try {
+        const has = await browser.permissions.contains({ origins: needed });
+        if (!has) {
+          const granted = await browser.permissions.request({ origins: needed });
+          if (!granted) {
+            el.checked = false;
+          }
+        }
+      } catch (e) {
+        console.warn("[OCF] Permission request failed:", e);
+      }
+    }
+  }
+  await save();
+  refreshPermissionBanner();
 }
 
 async function init() {
@@ -34,7 +75,7 @@ async function init() {
   for (const key of FEATURES) {
     const el = document.getElementById(key);
     el.checked = stored[key];
-    el.addEventListener("change", () => save());
+    el.addEventListener("change", () => handleToggleChange(key, el));
   }
   const seg = document.getElementById("themeSeg");
   const override = stored.themeOverride || "auto";
@@ -50,7 +91,8 @@ async function init() {
 
   document.getElementById("permBtn").addEventListener("click", async () => {
     try {
-      await browser.permissions.request({ origins: REQUIRED_ORIGINS });
+      const origins = originsForEnabled(currentToggleState());
+      await browser.permissions.request({ origins });
     } catch (e) {
       console.warn("[OCF] Permission request failed:", e);
     }

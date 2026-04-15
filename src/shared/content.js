@@ -2085,23 +2085,12 @@
 
   // --- Permission banner (Firefox MV3 user-controlled host_permissions) ---
 
-  const REQUIRED_ORIGINS = [
-    "*://*.fantrax.com/*",
-    "https://fastball-gateway.mlb.com/*",
-    "https://statsapi.mlb.com/*",
-    "https://fastball-clips.mlb.com/*",
-    "https://baseballsavant.mlb.com/*",
-    "https://www.fangraphs.com/*",
-  ];
   const PERM_BANNER_DISMISS_KEY = "ocfPermBannerDismissed";
 
   async function maybeShowPermBanner() {
     let response;
     try {
-      response = await browser.runtime.sendMessage({
-        type: "ocf-check-perms",
-        origins: REQUIRED_ORIGINS,
-      });
+      response = await browser.runtime.sendMessage({ type: "ocf-check-perms" });
     } catch {
       return;
     }

@@ -1,17 +1,48 @@
 const browser = globalThis.browser || globalThis.chrome;
 
-const REQUIRED_ORIGINS = [
-  "*://*.fantrax.com/*",
-  "https://fastball-gateway.mlb.com/*",
-  "https://statsapi.mlb.com/*",
-  "https://fastball-clips.mlb.com/*",
-  "https://baseballsavant.mlb.com/*",
-  "https://www.fangraphs.com/*",
-];
+const BASE_ORIGINS = ["*://*.fantrax.com/*"];
+const FEATURE_ORIGINS = {
+  bbref: ["https://statsapi.mlb.com/*"],
+  statcastIcon: ["https://statsapi.mlb.com/*"],
+  statcastPanel: ["https://statsapi.mlb.com/*", "https://baseballsavant.mlb.com/*"],
+  video: [
+    "https://statsapi.mlb.com/*",
+    "https://fastball-gateway.mlb.com/*",
+    "https://fastball-clips.mlb.com/*",
+  ],
+  liveGame: ["https://statsapi.mlb.com/*"],
+  fangraphsPanel: ["https://statsapi.mlb.com/*", "https://www.fangraphs.com/*"],
+};
+const FEATURE_DEFAULTS = {
+  bbref: true,
+  statcastIcon: true,
+  statcastPanel: true,
+  video: true,
+  liveGame: true,
+  fangraphsPanel: true,
+};
+
+function getRequiredOrigins(features) {
+  const set = new Set(BASE_ORIGINS);
+  for (const [feature, origins] of Object.entries(FEATURE_ORIGINS)) {
+    if (features[feature]) origins.forEach((o) => set.add(o));
+  }
+  return [...set];
+}
+
+async function getEnabledFeatures() {
+  try {
+    return await browser.storage.sync.get(FEATURE_DEFAULTS);
+  } catch {
+    return { ...FEATURE_DEFAULTS };
+  }
+}
 
 async function refreshActionBadge() {
   try {
-    const granted = await browser.permissions.contains({ origins: REQUIRED_ORIGINS });
+    const features = await getEnabledFeatures();
+    const origins = getRequiredOrigins(features);
+    const granted = await browser.permissions.contains({ origins });
     const text = granted ? "" : "!";
     if (browser.action?.setBadgeText) {
       await browser.action.setBadgeText({ text });
@@ -28,7 +59,10 @@ browser.runtime.onInstalled.addListener(async (details) => {
   if (details.reason === "install") {
     let granted = false;
     try {
-      granted = await browser.permissions.contains({ origins: REQUIRED_ORIGINS });
+      const features = await getEnabledFeatures();
+      granted = await browser.permissions.contains({
+        origins: getRequiredOrigins(features),
+      });
     } catch {}
     if (!granted) {
       browser.tabs.create({ url: browser.runtime.getURL("setup.html") });
@@ -54,6 +88,9 @@ browser.permissions.onAdded?.addListener(() => {
   reloadFantraxTabs();
 });
 browser.permissions.onRemoved?.addListener(refreshActionBadge);
+browser.storage?.onChanged?.addListener((_changes, area) => {
+  if (area === "sync") refreshActionBadge();
+});
 refreshActionBadge();
 
 // Firefox: rewrite Origin/Referer on FanGraphs requests to avoid Cloudflare challenge
@@ -81,10 +118,16 @@ browser.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   }
 
   if (msg.type === "ocf-check-perms") {
-    browser.permissions
-      .contains({ origins: msg.origins })
-      .then((granted) => sendResponse({ ok: true, granted }))
-      .catch((e) => sendResponse({ ok: false, error: e.message }));
+    (async () => {
+      try {
+        const features = await getEnabledFeatures();
+        const origins = getRequiredOrigins(features);
+        const granted = await browser.permissions.contains({ origins });
+        sendResponse({ ok: true, granted });
+      } catch (e) {
+        sendResponse({ ok: false, error: e.message });
+      }
+    })();
     return true;
   }
 
