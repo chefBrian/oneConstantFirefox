@@ -17,6 +17,7 @@
     }
   },
   "host_permissions": [
+    "*://*.fantrax.com/*",
     "https://fastball-gateway.mlb.com/*",
     "https://statsapi.mlb.com/*",
     "https://fastball-clips.mlb.com/*",
