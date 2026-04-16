@@ -1427,6 +1427,32 @@
   const HIT_TITLE_RE = /\b(?:singles?|doubles?|triples?|homers?|home run|RBI|hits? a)\b/i;
   const HR_TITLE_RE = /\b(?:homers?|home run|two-run homer|three-run homer|grand slam)\b/i;
 
+  // MiLB contentDate is a UTC timestamp, so slicing it produces tomorrow's date
+  // for late-evening West-Coast games. Prefer the ballpark-local game date from
+  // the gamepk tag; fall back to the user-local date derived from contentDate.
+  function extractMilbDate(item) {
+    const tags = Array.isArray(item.tags) ? item.tags : [];
+    const gameTag = tags.find((t) => typeof t?.slug === "string" && t.slug.startsWith("gamepk-"));
+    const gameId = gameTag?.extraData?.gameId;
+    const fromGameId = typeof gameId === "string" && gameId.match(/\d{4}-\d{2}-\d{2}$/);
+    if (fromGameId) return fromGameId[0];
+    const title = gameTag?.title;
+    const fromTitle = typeof title === "string" && title.match(/^(\d{4})\/(\d{2})\/(\d{2})/);
+    if (fromTitle) return `${fromTitle[1]}-${fromTitle[2]}-${fromTitle[3]}`;
+    const raw = item.contentDate;
+    if (typeof raw === "string") {
+      const d = new Date(raw);
+      if (!isNaN(d)) {
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      }
+      return raw.slice(0, 10);
+    }
+    return "";
+  }
+
   async function fetchMilbPage(mlbId, { tag = "", page = 1 } = {}) {
     const tagSlug = tag
       ? `playerid-${encodeURIComponent(mlbId)},${encodeURIComponent(tag)}`
@@ -1454,7 +1480,7 @@
       return {
         id: item._entityId || item.slug,
         title: item.title || fields.description || "Untitled",
-        date: (item.contentDate || "").slice(0, 10),
+        date: extractMilbDate(item),
         duration: fields.duration || "",
         videoUrl,
         thumbUrl,
