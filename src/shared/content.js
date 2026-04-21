@@ -176,15 +176,23 @@
     if (mlbIdCache.has(cacheKey)) {
       return mlbIdCache.get(cacheKey);
     }
-    // Strip periods (e.g. "T.J." -> "TJ") since the MLB API doesn't match them
-    const searchName = playerName.replace(/\./g, "");
+    // MLB API name matching is inconsistent with periods:
+    //   "T.J. Friedl" / "C.J. Abrams" only match WITHOUT periods
+    //   "J.P. Crawford" only matches WITH periods
+    // Try the stripped form first, fall back to the original.
+    const stripped = playerName.replace(/\./g, "");
+    const candidates = stripped !== playerName ? [stripped, playerName] : [playerName];
     try {
-      const resp = await fetch(
-        `${MLB_SEARCH_API}${encodeURIComponent(searchName)}&hydrate=currentTeam`
-      );
-      if (!resp.ok) return null;
-      const data = await resp.json();
-      const people = data.people || [];
+      let people = [];
+      for (const candidate of candidates) {
+        const resp = await fetch(
+          `${MLB_SEARCH_API}${encodeURIComponent(candidate)}&hydrate=currentTeam`
+        );
+        if (!resp.ok) continue;
+        const data = await resp.json();
+        people = data.people || [];
+        if (people.length > 0) break;
+      }
       if (people.length === 0) return null;
 
       let match = people[0];
