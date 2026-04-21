@@ -203,13 +203,10 @@ html.ocf-light {
   border-radius: 20px;
   box-shadow: var(--ocf-panel-shadow);
   font-family: Poppins, sans-serif;
-  overflow-y: auto;
+  overflow: hidden;
   box-sizing: border-box;
-  overflow-x: hidden;
   display: flex;
   flex-direction: column;
-  scrollbar-width: thin;
-  scrollbar-color: var(--ocf-scrollbar) transparent;
 }
 
 /* Header */
@@ -536,6 +533,24 @@ html.ocf-light {
 }
 
 .ocf-rolling-tooltip--visible {
+  opacity: 1;
+}
+
+.ocf-rolling-dot {
+  position: absolute;
+  pointer-events: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.12s;
+  z-index: 2;
+  box-sizing: border-box;
+}
+
+.ocf-rolling-dot--visible {
   opacity: 1;
 }
 

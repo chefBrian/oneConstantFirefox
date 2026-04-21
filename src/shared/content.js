@@ -669,7 +669,7 @@
     function updatePosition() {
       const rect = overlayPane.getBoundingClientRect();
       const panelWidth = 340;
-      const gap = 8;
+      const gap = 5;
 
       panel.style.left = "";
       panel.style.right = "";
@@ -858,18 +858,18 @@
   function getRollingColor(xwoba, pitcher) {
     const stops = pitcher
       ? [
-          { v: 0.200, r: 255, g: 0, b: 0 },
-          { v: 0.290, r: 194, g: 194, b: 194 },
-          { v: 0.310, r: 194, g: 194, b: 194 },
-          { v: 0.330, r: 194, g: 194, b: 205 },
-          { v: 0.400, r: 0, g: 0, b: 255 },
+          { v: 0.210, r: 255, g: 0, b: 0 },
+          { v: 0.300, r: 194, g: 194, b: 194 },
+          { v: 0.320, r: 194, g: 194, b: 194 },
+          { v: 0.340, r: 194, g: 194, b: 205 },
+          { v: 0.410, r: 0, g: 0, b: 255 },
         ]
       : [
-          { v: 0.200, r: 0, g: 0, b: 255 },
-          { v: 0.290, r: 194, g: 194, b: 205 },
-          { v: 0.310, r: 194, g: 194, b: 194 },
-          { v: 0.330, r: 194, g: 194, b: 194 },
-          { v: 0.400, r: 255, g: 0, b: 0 },
+          { v: 0.210, r: 0, g: 0, b: 255 },
+          { v: 0.300, r: 194, g: 194, b: 205 },
+          { v: 0.320, r: 194, g: 194, b: 194 },
+          { v: 0.340, r: 194, g: 194, b: 194 },
+          { v: 0.410, r: 255, g: 0, b: 0 },
         ];
     if (xwoba <= stops[0].v) return `rgb(${stops[0].r},${stops[0].g},${stops[0].b})`;
     if (xwoba >= stops[4].v) return `rgb(${stops[4].r},${stops[4].g},${stops[4].b})`;
@@ -952,8 +952,8 @@
       ctx.fillText(gv.toFixed(3), padLeft - 4, gy);
     }
 
-    // League average line at .310
-    const lgY = yPos(0.310);
+    // League average line
+    const lgY = yPos(0.320);
     ctx.strokeStyle = "rgb(20,184,166)";
     ctx.setLineDash([4, 4]);
     ctx.lineWidth = 1;
@@ -965,7 +965,7 @@
     ctx.fillStyle = "rgb(20,184,166)";
     ctx.textAlign = "right";
     const tail = data.slice(-Math.max(1, Math.ceil(data.length * 0.1)));
-    const aboveCount = tail.filter((d) => d.xwoba >= 0.310).length;
+    const aboveCount = tail.filter((d) => d.xwoba >= 0.320).length;
     const lgLabelBelow = aboveCount >= tail.length / 2;
     ctx.fillText("LG AVG", padLeft + chartW, lgY + (lgLabelBelow ? 11 : -7));
 
@@ -1015,8 +1015,10 @@
       }
     }
 
+    const dot = canvas._dot;
     if (closestDist > 20) {
       tooltip.classList.remove("ocf-rolling-tooltip--visible");
+      if (dot) dot.classList.remove("ocf-rolling-dot--visible");
       return;
     }
 
@@ -1026,8 +1028,14 @@
     tooltip.innerHTML = `<div>xwOBA: <b>${pt.xwoba.toFixed(3)}</b></div><div>Last PA: ${formatRollingDate(pt.max_game_date)}</div>`;
     tooltip.classList.add("ocf-rolling-tooltip--visible");
 
+    if (dot) {
+      dot.style.left = px + "px";
+      dot.style.top = py + "px";
+      dot.style.background = getRollingColor(pt.xwoba, canvas._pitcher);
+      dot.classList.add("ocf-rolling-dot--visible");
+    }
+
     // Position tooltip, clamping horizontally within the canvas wrapper
-    const above = pt.xwoba > 0.330;
     const wrapWidth = canvas.parentElement.clientWidth;
     const tipW = tooltip.offsetWidth;
     let left = px - tipW / 2;
@@ -1036,6 +1044,8 @@
     tooltip.style.left = left + "px";
     const tipH = tooltip.offsetHeight;
     const wrapHeight = canvas.parentElement.clientHeight;
+    // Prefer placing above the point; flip below only if no room above
+    const above = py - tipH - 8 >= 0;
     let top = above ? (py - tipH - 8) : (py + 8);
     if (top < 0) top = 0;
     if (top + tipH > wrapHeight) top = wrapHeight - tipH;
@@ -1044,7 +1054,9 @@
 
   function handleRollingMouseLeave(e) {
     const tooltip = e.currentTarget._tooltip;
+    const dot = e.currentTarget._dot;
     if (tooltip) tooltip.classList.remove("ocf-rolling-tooltip--visible");
+    if (dot) dot.classList.remove("ocf-rolling-dot--visible");
   }
 
   function appendRollingChart(panel, rollingData, pitcher) {
@@ -1076,6 +1088,7 @@
       </div>
       <div class="ocf-rolling-canvas-wrap">
         <canvas></canvas>
+        <div class="ocf-rolling-dot"></div>
         <div class="ocf-rolling-tooltip"></div>
       </div>
     `;
@@ -1083,6 +1096,9 @@
 
     const canvasEl = section.querySelector("canvas");
     const tooltipEl = section.querySelector(".ocf-rolling-tooltip");
+    const dotEl = section.querySelector(".ocf-rolling-dot");
+    canvasEl._dot = dotEl;
+    canvasEl._pitcher = pitcher;
     let activeWindow = "plate50";
 
     function parseAndDraw(key) {
