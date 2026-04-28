@@ -2,8 +2,9 @@
 
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/andhmhfiodkbfmjiencoiglmdpolhomc?label=Chrome%20Web%20Store&logo=googlechrome&logoColor=white&color=4285F4)](https://chromewebstore.google.com/detail/fantraxbaseball+/andhmhfiodkbfmjiencoiglmdpolhomc)
 [![Firefox Add-ons](https://img.shields.io/amo/v/fantraxbaseball?label=Firefox%20Add-ons&logo=firefoxbrowser&logoColor=white&color=FF7139)](https://addons.mozilla.org/en-US/firefox/addon/fantraxbaseball/)
+[![Edge Add-ons](https://img.shields.io/badge/Edge%20Add--ons-Install-0078D7?logo=microsoftedge&logoColor=white)](https://microsoftedge.microsoft.com/addons/detail/fantraxbaseball/khbejbbnadofdhbnkppnedbdeabhfbhi)
 
-Browser extension that enhances Fantrax fantasy baseball with Statcast and FanGraphs data, quick-access links, and live game integration. Available for Chrome and Firefox.
+Browser extension that enhances Fantrax fantasy baseball with Statcast and FanGraphs data, quick-access links, and live game integration. Available for Chrome, Firefox, and Edge.
 
 ## Screenshots
 
@@ -65,6 +66,9 @@ Clicking the video icon opens a modal with:
 
 ### Firefox Add-ons
 [Install from Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/fantraxbaseball/)
+
+### Microsoft Edge Add-ons
+[Install from Edge Add-ons](https://microsoftedge.microsoft.com/addons/detail/fantraxbaseball/khbejbbnadofdhbnkppnedbdeabhfbhi)
 
 ### Manual / Development
 
